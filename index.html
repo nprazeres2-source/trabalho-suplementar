@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f6b5c">
+<title>Trabalho Suplementar</title>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: cabeçalho com resumo do mês, depois formulário + lista; tudo numa coluna que alarga para duas em ecrã largo */
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --ink:#18221f; --muted:#5d6b66; --line:#d9e0dd;
+  --accent:#0f6b5c; --accent-ink:#ffffff; --accent-soft:#e1f0ec;
+  --util:#2f6fb0; --compl:#8a5a00; --obrig:#b23a2b; --feriado:#6b3fa0;
+  --util-bg:#e6eff8; --compl-bg:#f7eedb; --obrig-bg:#f8e4e1; --feriado-bg:#eee6f6;
+  --f-display:"Archivo",system-ui,sans-serif; --f-body:"Source Sans 3",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111816; --surface:#18211e; --ink:#e4ece9; --muted:#97a6a0; --line:#2b3733;
+  --accent:#4fbfa8; --accent-ink:#0b1513; --accent-soft:#1d3530;
+  --util:#7fb2e8; --compl:#e0b25a; --obrig:#ef8a7c; --feriado:#c3a0ec;
+  --util-bg:#1b2a3a; --compl-bg:#33291a; --obrig-bg:#3a201c; --feriado-bg:#2b2238; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111816; --surface:#18211e; --ink:#e4ece9; --muted:#97a6a0; --line:#2b3733;
+  --accent:#4fbfa8; --accent-ink:#0b1513; --accent-soft:#1d3530;
+  --util:#7fb2e8; --compl:#e0b25a; --obrig:#ef8a7c; --feriado:#c3a0ec;
+  --util-bg:#1b2a3a; --compl-bg:#33291a; --obrig-bg:#3a201c; --feriado-bg:#2b2238; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
+.wrap{max-width:1120px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
+h1{font-family:var(--f-display);font-weight:800;font-size:1.75rem;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h1 small{display:block;font-family:var(--f-body);font-weight:400;font-size:.9rem;color:var(--muted);letter-spacing:0}
+h2{font-family:var(--f-display);font-weight:700;font-size:1.05rem;margin:0}
+.monthnav{display:flex;align-items:center;gap:6px}
+.monthnav strong{font-family:var(--f-display);min-width:150px;text-align:center;text-transform:capitalize}
+button,.btn{font:600 .9rem var(--f-body);border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:8px 12px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.ghost{background:transparent}
+button.danger{color:var(--obrig)}
+.summary{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.stat .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.stat .val{font-family:var(--f-mono);font-size:1.45rem;font-weight:600;font-variant-numeric:tabular-nums}
+.stat .sub{font-size:.82rem;color:var(--muted)}
+.stat.money .val{color:var(--accent)}
+.grid{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:14px;min-width:0}
+form{display:grid;gap:12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:grid;gap:4px;font-size:.8rem;font-weight:600;color:var(--muted)}
+input,select,textarea{font:400 .95rem var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+input[type=time],input[type=date],input[type=number]{font-family:var(--f-mono);font-size:.9rem}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.types input{position:absolute;opacity:0;pointer-events:none}
+.types label{border:1px solid var(--line);border-radius:8px;padding:8px;cursor:pointer;color:var(--ink);font-weight:600;font-size:.85rem;gap:0}
+.types label span{font-weight:400;color:var(--muted);font-size:.75rem}
+.types input:checked+label{border-color:currentColor;border-width:2px;padding:7px}
+.types input:focus-visible+label{outline:2px solid var(--accent);outline-offset:2px}
+.t-util{color:var(--util)} .t-compl{color:var(--compl)} .t-obrig{color:var(--obrig)} .t-feriado{color:var(--feriado)}
+.preview{font-family:var(--f-mono);font-size:.82rem;background:var(--accent-soft);border-radius:8px;padding:10px;line-height:1.6}
+.hint{font-size:.8rem;color:var(--muted)}
+.list{display:grid;gap:0}
+.day{border-top:1px solid var(--line);padding:10px 0;display:grid;gap:6px}
+.day:first-child{border-top:0}
+.dayhead{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.dayhead b{font-family:var(--f-display);text-transform:capitalize}
+.chip{display:inline-block;font-size:.72rem;font-weight:600;border-radius:999px;padding:2px 8px}
+.c-util{background:var(--util-bg);color:var(--util)} .c-compl{background:var(--compl-bg);color:var(--compl)}
+.c-obrig{background:var(--obrig-bg);color:var(--obrig)} .c-feriado{background:var(--feriado-bg);color:var(--feriado)}
+.entry{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.entry .time{font-family:var(--f-mono);font-size:.88rem;font-variant-numeric:tabular-nums}
+.entry .calc{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.entry .note{font-size:.85rem;min-width:0;overflow-wrap:anywhere}
+.entry .amt{font-family:var(--f-mono);font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.entry .acts{display:flex;gap:4px;justify-content:flex-end}
+.entry .acts button{padding:3px 8px;font-size:.78rem}
+.empty{color:var(--muted);text-align:center;padding:24px 8px}
+.banner{background:var(--compl-bg);color:var(--compl);border-radius:10px;padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;font-weight:600}
+.folgas{display:grid;gap:8px}
+.folga{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:.88rem}
+.folga input{width:auto;padding:4px 6px}
+.ok{color:var(--accent);font-weight:600}
+.saldo{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.saldo div{background:var(--bg);border-radius:8px;padding:8px 4px}
+.saldo b{display:block;font-family:var(--f-mono);font-size:1.15rem;font-variant-numeric:tabular-nums}
+.saldo span{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.saldo .pend b{color:var(--obrig)}
+.subh{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin-top:4px}
+.gz{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:.88rem;border-top:1px solid var(--line);padding-top:8px}
+.gz .q{font-family:var(--f-mono);font-weight:600}
+.gz button{padding:3px 8px;font-size:.78rem}
+.row3{display:grid;grid-template-columns:1.3fr .8fr .9fr;gap:8px}
+details summary{cursor:pointer;font-family:var(--f-display);font-weight:700}
+.tools{display:flex;flex-wrap:wrap;gap:8px}
+.confirm{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.85rem}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:8px;font-weight:600}
+textarea.io{font-family:var(--f-mono);font-size:.78rem;min-height:110px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <h1>Trabalho Suplementar<small>Registo de horas extra e descanso compensatório</small></h1>
+    <div class="monthnav">
+      <button id="prevM" aria-label="Mês anterior">‹</button>
+      <strong id="monthLbl"></strong>
+      <button id="nextM" aria-label="Mês seguinte">›</button>
+    </div>
+  </header>
+
+  <div id="exampleBanner" class="banner" hidden>
+    <span>Estes registos são exemplos. Apague-os antes de começar.</span>
+    <button id="clearExamples">Apagar exemplos</button>
+  </div>
+
+  <section class="summary" aria-label="Resumo do mês">
+    <div class="stat"><div class="lbl">Horas realizadas</div><div class="val" id="sHoras">0h00</div><div class="sub" id="sReg">0 registos</div></div>
+    <div class="stat"><div class="lbl">Horas equivalentes</div><div class="val" id="sEquiv">0,00</div><div class="sub">horas × acréscimo</div></div>
+    <div class="stat"><div class="lbl">Acréscimo a receber</div><div class="val" id="sAcresc">0,00 €</div><div class="sub" id="sValHora">valor hora —</div></div>
+    <div class="stat money"><div class="lbl">Total a receber</div><div class="val" id="sTotal">0,00 €</div><div class="sub">hora base + acréscimo</div></div>
+    <div class="stat"><div class="lbl">Descanso por gozar</div><div class="val" id="sFolgas">0</div><div class="sub">saldo total</div></div>
+  </section>
+
+  <div class="grid">
+    <div style="display:grid;gap:20px;min-width:0">
+      <section class="panel">
+        <h2 id="formTitle">Novo registo</h2>
+        <form id="f">
+          <label>Data<input type="date" id="fDate" required></label>
+          <div class="row">
+            <label>Início<input type="time" id="fStart" required></label>
+            <label>Fim<input type="time" id="fEnd" required></label>
+          </div>
+          <div>
+            <div class="hint" style="margin-bottom:6px">Tipo de dia <span id="autoHint"></span></div>
+            <div class="types">
+              <input type="radio" name="tipo" id="tUtil" value="util" checked><label for="tUtil" class="t-util">Dia útil<span>1.ª h 1,25 · seguintes 1,375</span></label>
+              <input type="radio" name="tipo" id="tCompl" value="compl"><label for="tCompl" class="t-compl">Descanso semanal<span>cada hora 1,5</span></label>
+              <input type="radio" name="tipo" id="tObrig" value="obrig"><label for="tObrig" class="t-obrig">Descanso obrigatório<span>1,5 + 1 dia descanso</span></label>
+              <input type="radio" name="tipo" id="tFeriado" value="feriado"><label for="tFeriado" class="t-feriado">Feriado<span>cada hora 1,5</span></label>
+            </div>
+          </div>
+          <label>Motivo / observações<input type="text" id="fNote" maxlength="140" placeholder="Ex.: ocorrência, reforço, reunião"></label>
+          <div class="preview" id="preview">Preencha início e fim para ver o cálculo.</div>
+          <div class="tools">
+            <button type="submit" class="primary" id="saveBtn">Guardar registo</button>
+            <button type="button" class="ghost" id="cancelEdit" hidden>Cancelar edição</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2>Descanso compensatório</h2>
+        <div class="hint">Cada dia de descanso obrigatório trabalhado dá direito a mais um dia de descanso. Registe as horas que gozou e o saldo vai descontando.</div>
+        <div class="saldo">
+          <div><b id="gGanhos">0</b><span>Ganhos</span></div>
+          <div><b id="gGozados">0</b><span>Gozados</span></div>
+          <div class="pend"><b id="gSaldo">0</b><span>Por gozar</span></div>
+        </div>
+        <div class="hint" id="gHoras"></div>
+        <form id="gf" style="gap:8px">
+          <div class="subh">Registar gozo</div>
+          <div class="row3">
+            <label>Data<input type="date" id="gDate" required></label>
+            <label>Horas<input type="number" id="gH" min="0" max="24" step="1" value="1" required></label>
+            <label>Minutos<input type="number" id="gM" min="0" max="59" step="5" value="0"></label>
+          </div>
+          <label>Observações<input type="text" id="gNote" maxlength="100" placeholder="Opcional"></label>
+          <button type="submit" class="primary">Registar gozo</button>
+        </form>
+        <div class="folgas" id="gozosList"></div>
+        <details>
+          <summary style="font-size:.9rem">Dias de descanso obrigatório trabalhados</summary>
+          <div class="folgas" id="folgas" style="margin-top:8px"></div>
+        </details>
+      </section>
+
+      <section class="panel">
+        <details>
+          <summary>Definições</summary>
+          <div style="display:grid;gap:12px;margin-top:12px">
+            <div class="row">
+              <label>Remuneração base mensal (€)<input type="number" id="cfgRB" step="0.01" min="0" placeholder="Ex.: 1200"></label>
+              <label>Horas semanais<input type="number" id="cfgN" step="0.5" min="1" value="35"></label>
+            </div>
+            <label>Valor hora (€) — calculado ou manual<input type="number" id="cfgVH" step="0.0001" min="0" placeholder="(RB × 12) ÷ (52 × horas semanais)"></label>
+            <div class="hint" id="vhHint"></div>
+            <label>Horas de um dia de descanso<input type="number" id="cfgHD" step="0.25" min="0.5" placeholder="Por omissão: horas semanais ÷ 5"></label>
+            <div class="hint">Cada dia de descanso obrigatório trabalhado soma estas horas ao saldo por gozar.</div>
+            <label>Feriado municipal (dia e mês)<input type="text" id="cfgMun" placeholder="Ex.: 24-06" pattern="\d{2}-\d{2}"></label>
+            <div class="hint">Feriados nacionais e o Dia da Região Autónoma dos Açores são detetados automaticamente.</div>
+          </div>
+        </details>
+      </section>
+
+      <section class="panel">
+        <details>
+          <summary>Exportar e cópia de segurança</summary>
+          <div style="display:grid;gap:10px;margin-top:12px">
+            <div class="hint">Os dados ficam guardados neste dispositivo e navegador. Faça cópias regulares.</div>
+            <div class="tools">
+              <button id="btnCSV">Descarregar CSV do mês</button>
+              <button id="btnBackup">Descarregar cópia de segurança</button>
+              <button id="btnRestore">Restaurar cópia</button>
+              <input type="file" id="fileRestore" accept=".json,application/json" hidden>
+            </div>
+          </div>
+        </details>
+      </section>
+    </div>
+
+    <section class="panel" style="align-self:start">
+      <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline">
+        <h2>Registos do mês</h2>
+        <span class="hint" id="breakdown"></span>
+      </div>
+      <div class="list" id="list"></div>
+    </section>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+const KEY='ts_registos_v1', CFG='ts_cfg_v1';
+const TIPOS={util:{n:'Dia útil',c:'c-util'},compl:{n:'Descanso semanal',c:'c-compl'},obrig:{n:'Descanso obrigatório',c:'c-obrig'},feriado:{n:'Feriado',c:'c-feriado'}};
+const $=id=>document.getElementById(id);
+function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){toast('Não foi possível guardar neste navegador.')}}
+const GKEY='ts_gozos_v1';
+let regs=load(KEY,null), cfg=load(CFG,{rb:'',n:35,vh:'',mun:''}), gozos=load(GKEY,null);
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today=new Date();
+let viewY=today.getFullYear(), viewM=today.getMonth();
+
+// exemplos na primeira utilização
+if(regs===null){
+  const y=viewY,m=pad(viewM+1);
+  regs=[
+    {id:'ex1',ex:true,date:`${y}-${m}-06`,start:'17:00',end:'19:30',tipo:'util',note:'Exemplo: ocorrência ao fim do turno'},
+    {id:'ex2',ex:true,date:`${y}-${m}-11`,start:'09:00',end:'13:00',tipo:'compl',note:'Exemplo: reforço ao sábado'},
+    {id:'ex3',ex:true,date:`${y}-${m}-12`,start:'08:00',end:'14:00',tipo:'obrig',note:'Exemplo: prevenção ao domingo',folga:''}
+  ];
+  save(KEY,regs);
+  if(gozos===null){gozos=[{id:'exg1',ex:true,date:`${y}-${m}-15`,q:3.5,u:'h',note:'Exemplo: saída mais cedo'}];save(GKEY,gozos)}
+}
+if(gozos===null)gozos=[];
+// migrar datas de gozo da versão anterior (1 dia cada)
+(function(){let ch=false;regs.forEach(r=>{if(r.folga){gozos.push({id:'m'+r.id,date:r.folga,q:1,u:'d',note:'Importado (1 dia)'});ch=true}if('folga' in r){delete r.folga;ch=true}});if(ch){save(KEY,regs);save(GKEY,gozos)}})();
+
+// feriados
+function easter(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,mm=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*mm+114)/31),da=((h+l-7*mm+114)%31)+1;return new Date(y,mo-1,da)}
+const hCache={};
+function holidays(y){
+  if(hCache[y])return hCache[y];
+  const map={};const add=(d,n)=>map[iso(d)]=n;const fx=(mo,da,n)=>add(new Date(y,mo-1,da),n);
+  const e=easter(y),off=(n)=>{const d=new Date(e);d.setDate(d.getDate()+n);return d};
+  fx(1,1,'Ano Novo');add(off(-2),'Sexta-feira Santa');add(e,'Páscoa');fx(4,25,'Dia da Liberdade');fx(5,1,'Dia do Trabalhador');
+  add(off(50),'Dia da Região Autónoma dos Açores');add(off(60),'Corpo de Deus');fx(6,10,'Dia de Portugal');fx(8,15,'Assunção de Nossa Senhora');
+  fx(10,5,'Implantação da República');fx(11,1,'Todos os Santos');fx(12,1,'Restauração da Independência');fx(12,8,'Imaculada Conceição');fx(12,25,'Natal');
+  return hCache[y]=map;
+}
+function holidayName(ds){
+  const y=+ds.slice(0,4);const h=holidays(y)[ds];if(h)return h;
+  if(cfg.mun&&/^\d{2}-\d{2}$/.test(cfg.mun)&&ds.slice(8,10)+'-'+ds.slice(5,7)===cfg.mun)return 'Feriado municipal';
+  return null;
+}
+function suggestType(ds){
+  if(!ds)return null;const hn=holidayName(ds);if(hn)return['feriado',hn];
+  const wd=new Date(ds+'T12:00').getDay();
+  if(wd===0)return['obrig','domingo'];if(wd===6)return['compl','sábado'];return['util',null];
+}
+
+// cálculo
+function mins(r){const[a,b]=r.start.split(':').map(Number),[c,d]=r.end.split(':').map(Number);let m=(c*60+d)-(a*60+b);if(m<=0)m+=1440;return m}
+function valorHora(){
+  if(cfg.vh!==''&&+cfg.vh>0)return +cfg.vh;
+  if(+cfg.rb>0&&+cfg.n>0)return (+cfg.rb*12)/(52*+cfg.n);
+  return 0;
+}
+// devolve, por registo: minutos a 1,25 / 1,375 / 1,5
+function calcAll(list){
+  const out={};const byDay={};
+  list.forEach(r=>{(byDay[r.date]=byDay[r.date]||[]).push(r)});
+  Object.values(byDay).forEach(arr=>{
+    arr.sort((a,b)=>a.start.localeCompare(b.start));
+    let usedFirst=0;
+    arr.forEach(r=>{
+      const m=mins(r);let p125=0,p1375=0,p15=0;
+      if(r.tipo==='util'){p125=Math.min(m,Math.max(0,60-usedFirst));usedFirst+=p125;p1375=m-p125}else p15=m;
+      const equiv=(p125*1.25+p1375*1.375+p15*1.5)/60;
+      out[r.id]={m,p125,p1375,p15,equiv,acresc:(p125*.25+p1375*.375+p15*.5)/60};
+    });
+  });
+  return out;
+}
+const fmtH=m=>Math.floor(m/60)+'h'+pad(Math.round(m%60));
+const nf2=new Intl.NumberFormat('pt-PT',{minimumFractionDigits:2,maximumFractionDigits:2});
+const eur=v=>nf2.format(v)+' €';
+
+// render
+function monthKey(){return viewY+'-'+pad(viewM+1)}
+function render(){
+  const mk=monthKey();
+  $('monthLbl').textContent=new Date(viewY,viewM,1).toLocaleDateString('pt-PT',{month:'long',year:'numeric'});
+  const monthRegs=regs.filter(r=>r.date.startsWith(mk));
+  const calc=calcAll(regs);
+  const vh=valorHora();
+  let tm=0,teq=0,tac=0,t125=0,t1375=0,t15=0;
+  monthRegs.forEach(r=>{const c=calc[r.id];tm+=c.m;teq+=c.equiv;tac+=c.acresc;t125+=c.p125;t1375+=c.p1375;t15+=c.p15});
+  $('sHoras').textContent=fmtH(tm);$('sReg').textContent=monthRegs.length+(monthRegs.length===1?' registo':' registos');
+  $('sEquiv').textContent=nf2.format(teq);
+  $('sAcresc').textContent=vh?eur(tac*vh):'—';$('sTotal').textContent=vh?eur(teq*vh):'—';
+  $('sValHora').textContent=vh?'valor hora '+nf2.format(vh)+' €':'defina o valor hora';
+  $('breakdown').textContent=tm?`1,25: ${fmtH(t125)} · 1,375: ${fmtH(t1375)} · 1,5: ${fmtH(t15)}`:'';
+  $('exampleBanner').hidden=!regs.some(r=>r.ex)&&!gozos.some(g=>g.ex);
+
+  const list=$('list');list.innerHTML='';
+  if(!monthRegs.length){list.innerHTML='<div class="empty">Sem registos neste mês. Adicione o primeiro no formulário.</div>'}
+  const days=[...new Set(monthRegs.map(r=>r.date))].sort().reverse();
+  days.forEach(ds=>{
+    const dr=monthRegs.filter(r=>r.date===ds).sort((a,b)=>a.start.localeCompare(b.start));
+    const div=document.createElement('div');div.className='day';
+    const hn=holidayName(ds);
+    const dl=new Date(ds+'T12:00').toLocaleDateString('pt-PT',{weekday:'long',day:'numeric',month:'short'});
+    const dm=dr.reduce((s,r)=>s+calc[r.id].m,0),deq=dr.reduce((s,r)=>s+calc[r.id].equiv,0);
+    div.innerHTML=`<div class="dayhead"><b>${dl}${hn?' · '+hn:''}</b><span class="hint">${fmtH(dm)} · ${nf2.format(deq)} h eq.${vh?' · '+eur(deq*vh):''}</span></div>`;
+    dr.forEach(r=>{
+      const c=calc[r.id],t=TIPOS[r.tipo];
+      const parts=[];if(c.p125)parts.push(fmtH(c.p125)+'×1,25');if(c.p1375)parts.push(fmtH(c.p1375)+'×1,375');if(c.p15)parts.push(fmtH(c.p15)+'×1,5');
+      const e=document.createElement('div');e.className='entry';
+      e.innerHTML=`<div class="time">${r.start}–${r.end}</div>
+        <div style="min-width:0"><span class="chip ${t.c}">${t.n}</span>${r.ex?' <span class="chip c-compl">exemplo</span>':''}
+          <div class="note"></div><div class="calc">${parts.join(' + ')} = ${nf2.format(c.equiv)} h eq.</div></div>
+        <div><div class="amt">${vh?eur(c.equiv*vh):nf2.format(c.equiv)+' h'}</div>
+          <div class="acts"><button data-ed="${r.id}">Editar</button><button class="danger" data-del="${r.id}">Apagar</button></div></div>`;
+      e.querySelector('.note').textContent=r.note||'';
+      div.appendChild(e);
+    });
+    list.appendChild(div);
+  });
+  renderFolgas();
+}
+const nfd=new Intl.NumberFormat('pt-PT',{maximumFractionDigits:2});
+function hpd(){return +cfg.hd>0?+cfg.hd:(+cfg.n>0?+cfg.n:35)/5}
+function saldoDias(){
+  const ganhos=new Set(regs.filter(r=>r.tipo==='obrig').map(r=>r.date)).size;
+  const gh=ganhos*hpd()*60, goz=gozos.reduce((s,g)=>s+(g.u==='d'?+g.q*hpd()*60:+g.q*60),0);
+  return {ganhos,gh,goz,saldo:gh-goz};
+}
+function renderFolgas(){
+  const b=saldoDias(),h=hpd();
+  const fh=m=>(m<0?'−':'')+fmtH(Math.abs(Math.round(m)));
+  $('gGanhos').textContent=fh(b.gh);$('gGozados').textContent=fh(b.goz);$('gSaldo').textContent=fh(b.saldo);
+  $('sFolgas').textContent=fh(b.saldo);
+  $('gHoras').textContent=`${b.ganhos} ${b.ganhos===1?'dia trabalhado':'dias trabalhados'} em descanso obrigatório × ${fmtH(Math.round(h*60))} por dia`+(b.saldo<0?' · Gozou mais horas do que as ganhas.':'');
+  const gl=$('gozosList');gl.innerHTML='';
+  if(!gozos.length)gl.innerHTML='<div class="hint">Ainda não registou nenhum gozo.</div>';
+  else{const t=document.createElement('div');t.className='subh';t.textContent='Gozos registados';gl.appendChild(t)}
+  gozos.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(g=>{
+    const d=document.createElement('div');d.className='gz';
+    const dl=new Date(g.date+'T12:00').toLocaleDateString('pt-PT',{day:'numeric',month:'short',year:'numeric'});
+    const q=fmtH(Math.round((g.u==='d'?g.q*hpd():+g.q)*60));
+    d.innerHTML=`<div><span class="q">${q}</span> · ${dl}${g.ex?' <span class="chip c-compl">exemplo</span>':''}<div class="hint note"></div></div><div><button class="danger" data-gdel="${g.id}">Apagar</button></div>`;
+    d.querySelector('.note').textContent=g.note||'';
+    gl.appendChild(d);
+  });
+  const box=$('folgas');box.innerHTML='';
+  const dias=[...new Set(regs.filter(r=>r.tipo==='obrig').map(r=>r.date))].sort().reverse();
+  if(!dias.length){box.innerHTML='<div class="hint">Ainda não há dias de descanso obrigatório trabalhados.</div>';return}
+  dias.forEach(ds=>{const d=document.createElement('div');d.className='hint';
+    d.textContent='+'+fmtH(Math.round(hpd()*60))+' · '+new Date(ds+'T12:00').toLocaleDateString('pt-PT',{weekday:'long',day:'numeric',month:'short',year:'numeric'});box.appendChild(d)});
+}
+
+// formulário
+let editing=null;
+function selectedTipo(){return document.querySelector('input[name=tipo]:checked').value}
+function setTipo(v){document.querySelector(`input[name=tipo][value=${v}]`).checked=true}
+function updatePreview(){
+  const s=$('fStart').value,e=$('fEnd').value,ds=$('fDate').value;
+  if(!s||!e||!ds){$('preview').textContent='Preencha início e fim para ver o cálculo.';return}
+  const tmp={id:'__p',date:ds,start:s,end:e,tipo:selectedTipo()};
+  const others=regs.filter(r=>r.date===ds&&r.id!==editing);
+  const c=calcAll([...others,tmp])['__p'];const vh=valorHora();
+  const parts=[];if(c.p125)parts.push(fmtH(c.p125)+' × 1,25');if(c.p1375)parts.push(fmtH(c.p1375)+' × 1,375');if(c.p15)parts.push(fmtH(c.p15)+' × 1,5');
+  let t=`${fmtH(c.m)} trabalhadas${e<=s?' (termina no dia seguinte)':''}\n${parts.join(' + ')} = ${nf2.format(c.equiv)} h equivalentes`;
+  if(vh)t+=`\nValor: ${eur(c.equiv*vh)} (acréscimo ${eur(c.acresc*vh)})`;
+  if(selectedTipo()==='util'&&others.some(r=>r.tipo==='util')&&c.p125<Math.min(60,c.m))t+='\nA 1.ª hora deste dia já foi contada noutro registo.';
+  if(selectedTipo()==='obrig')t+='\n+1 dia de descanso compensatório';
+  $('preview').style.whiteSpace='pre-line';$('preview').textContent=t;
+}
+function onDate(){
+  const sg=suggestType($('fDate').value);
+  if(sg&&!editing){setTipo(sg[0])}
+  $('autoHint').textContent=sg&&sg[1]?'· '+sg[1]:'';
+  updatePreview();
+}
+['fStart','fEnd'].forEach(id=>$(id).addEventListener('input',updatePreview));
+$('fDate').addEventListener('change',onDate);
+document.querySelectorAll('input[name=tipo]').forEach(i=>i.addEventListener('change',updatePreview));
+function resetForm(){
+  editing=null;$('f').reset();$('fDate').value=iso(today);$('formTitle').textContent='Novo registo';$('saveBtn').textContent='Guardar registo';$('cancelEdit').hidden=true;onDate();
+}
+$('f').addEventListener('submit',ev=>{
+  ev.preventDefault();
+  const r={date:$('fDate').value,start:$('fStart').value,end:$('fEnd').value,tipo:selectedTipo(),note:$('fNote').value.trim()};
+  if(r.start===r.end){toast('O início e o fim não podem ser iguais.');return}
+  if(editing){const o=regs.find(x=>x.id===editing);Object.assign(o,r);delete o.ex;toast('Registo atualizado')}
+  else{r.id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);regs.push(r);toast('Registo guardado')}
+  save(KEY,regs);
+  const[y,m]=r.date.split('-');viewY=+y;viewM=+m-1;
+  resetForm();render();
+});
+$('cancelEdit').addEventListener('click',resetForm);
+
+let pendingDel=null;
+$('list').addEventListener('click',ev=>{
+  const ed=ev.target.dataset.ed,del=ev.target.dataset.del,yes=ev.target.dataset.yes,no=ev.target.dataset.no;
+  if(ed){const r=regs.find(x=>x.id===ed);editing=ed;$('fDate').value=r.date;$('fStart').value=r.start;$('fEnd').value=r.end;$('fNote').value=r.note||'';setTipo(r.tipo);
+    $('formTitle').textContent='Editar registo';$('saveBtn').textContent='Guardar alterações';$('cancelEdit').hidden=false;onDate();$('fDate').scrollIntoView({behavior:'smooth',block:'center'})}
+  if(del){const box=ev.target.parentElement;box.innerHTML=`<span class="confirm">Apagar? <button class="danger" data-yes="${del}">Sim</button><button data-no="1">Não</button></span>`}
+  if(yes){regs=regs.filter(x=>x.id!==yes);save(KEY,regs);render();toast('Registo apagado')}
+  if(no)render();
+});
+$('gf').addEventListener('submit',ev=>{ev.preventDefault();
+  const q=(+$('gH').value||0)+(+$('gM').value||0)/60;if(!(q>0)){toast('Indique as horas gozadas.');return}
+  gozos.push({id:'g'+Date.now().toString(36),date:$('gDate').value,q:Math.round(q*10000)/10000,u:'h',note:$('gNote').value.trim()});
+  save(GKEY,gozos);$('gNote').value='';$('gH').value=1;$('gM').value=0;render();toast('Gozo registado')});
+$('gozosList').addEventListener('click',ev=>{const t=ev.target;
+  if(t.dataset.gdel){t.parentElement.innerHTML=`<span class="confirm">Apagar? <button class="danger" data-gyes="${t.dataset.gdel}">Sim</button><button data-gno="1">Não</button></span>`}
+  if(t.dataset.gyes){gozos=gozos.filter(g=>g.id!==t.dataset.gyes);save(GKEY,gozos);render();toast('Gozo apagado')}
+  if(t.dataset.gno)render()});
+$('gDate').value=iso(today);
+$('clearExamples').addEventListener('click',()=>{regs=regs.filter(r=>!r.ex);gozos=gozos.filter(g=>!g.ex);save(KEY,regs);save(GKEY,gozos);render();toast('Exemplos apagados')});
+$('prevM').addEventListener('click',()=>{viewM--;if(viewM<0){viewM=11;viewY--}render()});
+$('nextM').addEventListener('click',()=>{viewM++;if(viewM>11){viewM=0;viewY++}render()});
+
+// definições
+$('cfgRB').value=cfg.rb;$('cfgN').value=cfg.n;$('cfgVH').value=cfg.vh;$('cfgMun').value=cfg.mun;$('cfgHD').value=cfg.hd||'';
+function cfgHint(){const vh=valorHora();$('vhHint').textContent=vh?(cfg.vh!==''&&+cfg.vh>0?'A usar o valor hora manual: ':'Valor hora calculado: ')+nf2.format(vh)+' €':'Indique a remuneração base ou o valor hora para ver valores em euros.'}
+['cfgRB','cfgN','cfgVH','cfgMun','cfgHD'].forEach(id=>$(id).addEventListener('input',()=>{
+  cfg={rb:$('cfgRB').value,n:$('cfgN').value,vh:$('cfgVH').value,mun:$('cfgMun').value.trim(),hd:$('cfgHD').value};save(CFG,cfg);cfgHint();render();updatePreview();
+}));
+
+// exportar
+function download(name,txt,type){const b=new Blob([txt],{type});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+$('btnCSV').addEventListener('click',()=>{
+  const mk=monthKey(),calc=calcAll(regs),vh=valorHora();
+  const rows=[['Data','Início','Fim','Tipo','Horas','Horas 1,25','Horas 1,375','Horas 1,5','Horas equivalentes','Valor (€)','Observações']];
+  regs.filter(r=>r.date.startsWith(mk)).sort((a,b)=>(a.date+a.start).localeCompare(b.date+b.start)).forEach(r=>{const c=calc[r.id];
+    rows.push([r.date,r.start,r.end,TIPOS[r.tipo].n,nf2.format(c.m/60),nf2.format(c.p125/60),nf2.format(c.p1375/60),nf2.format(c.p15/60),nf2.format(c.equiv),vh?nf2.format(c.equiv*vh):'',(r.note||'').replace(/;/g,',')])});
+  download('trabalho-suplementar-'+mk+'.csv','\ufeff'+rows.map(r=>r.join(';')).join('\r\n'),'text/csv;charset=utf-8');toast('CSV descarregado');
+});
+$('btnBackup').addEventListener('click',()=>{download('trabalho-suplementar-copia-'+iso(new Date())+'.json',JSON.stringify({regs,cfg,gozos},null,1),'application/json');toast('Cópia descarregada')});
+$('btnRestore').addEventListener('click',()=>$('fileRestore').click());
+$('fileRestore').addEventListener('change',ev=>{
+  const f=ev.target.files[0];if(!f)return;const rd=new FileReader();
+  rd.onload=()=>{try{const d=JSON.parse(rd.result);if(!Array.isArray(d.regs))throw 0;
+    if(!confirm('Restaurar esta cópia substitui todos os registos atuais. Continuar?'))return;
+    regs=d.regs;if(d.cfg)cfg=d.cfg;gozos=Array.isArray(d.gozos)?d.gozos:[];save(KEY,regs);save(CFG,cfg);save(GKEY,gozos);
+    $('cfgRB').value=cfg.rb;$('cfgN').value=cfg.n;$('cfgVH').value=cfg.vh;$('cfgMun').value=cfg.mun||'';$('cfgHD').value=cfg.hd||'';cfgHint();render();toast('Cópia restaurada')}
+    catch(e){toast('Este ficheiro não é uma cópia de segurança válida.')}
+    ev.target.value=''};
+  rd.readAsText(f);
+});
+
+let tt;function toast(m){const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2200)}
+
+cfgHint();resetForm();render();
+})();
+</script>
+
+</body>
+</html>
